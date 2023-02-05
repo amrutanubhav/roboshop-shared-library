@@ -1,4 +1,4 @@
-def lintchecks() {
+def lintchecks(COMPONENT) {
 
     sh "echo installing JSLINT"
     sh "npm install jslint"
@@ -9,7 +9,7 @@ def lintchecks() {
 }
 
 
-def call()    // call is the default functions that is called
+def call(COMPONENT)    // call is the default functions that is called
 {
         pipeline {
             agent any
@@ -19,7 +19,7 @@ def call()    // call is the default functions that is called
                     steps {
                         script {
 
-                            lintchecks()    // if the function is in same file, no need to call with filename as prefix
+                            lintchecks(COMPONENT)    // if the function is in same file, no need to call with filename as prefix
                         }
                     }
                 }
