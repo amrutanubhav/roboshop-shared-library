@@ -9,23 +9,26 @@ def lintchecks() {
 }
 
 
+def call()    // call is the default functions that is called
+{
+        pipeline {
+            agent any
+            stages {   // start of stages
 
-pipeline {
-    agent any
-    stages {
+                stage("Performing Lint checks") {
+                    steps {
+                        script {
 
-        stage("Performing Lint checks") {
-            steps {
-                script {
-
-                    lintchecks()    // if the function is in same file, no need to call with filename as prefix
-
-            }
-        }
-        stage("Downloading dependencies") {
-            steps {
-                sh "npm install"
-            }
-        }
+                            lintchecks()    // if the function is in same file, no need to call with filename as prefix
+                        }
+                    }
+                }
+                stage("Downloading dependencies") {
+                    steps {
+                        sh "npm install"
+                    }
+                }
+        } // end of stages
     }
 }
+
