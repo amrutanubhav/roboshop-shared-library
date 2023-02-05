@@ -24,7 +24,7 @@ def call(COMPONENT)    // call is the default functions that is called
                 }
                 stage("Downloading dependencies") {
                     steps {
-                        sh "npm install"
+                        sh "echo mvn clean package"
                     }
                 }
         } // end of stages
