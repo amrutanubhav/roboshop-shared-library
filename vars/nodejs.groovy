@@ -43,7 +43,7 @@ def call(COMPONENT)    // call is the default functions that is called
                     steps {
                         script {
                             env.ARGS="-Dsonar.sources=."
-                            sonarchecks(COMPONENT)    // if the function is in same file, no need to call with filename as prefix
+                            common.sonarchecks(COMPONENT)    // if the function is in same file, no need to call with filename as prefix
                         }
                     }
                 }
