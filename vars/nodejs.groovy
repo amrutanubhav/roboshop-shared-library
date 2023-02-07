@@ -29,7 +29,8 @@ def call(COMPONENT)    // call is the default functions that is called
                 SONAR_URL = "172.31.6.105"
         
                }
-            stages {   // start of stages
+
+            stages {   // start of stage
 
                 stage("Performing Lint checks") {
                     steps {
@@ -39,6 +40,7 @@ def call(COMPONENT)    // call is the default functions that is called
                         }
                     }
                 }
+
                 stage("Performing sonar checks") {
                     steps {
                         script {
@@ -48,7 +50,7 @@ def call(COMPONENT)    // call is the default functions that is called
                     }
                 }
 
-                stage("Performing sonar checks") {
+                stage("Performing TEST checks") {
                         parallel {
                             stage("Unit tests") {
                                steps {
