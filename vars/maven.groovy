@@ -52,7 +52,6 @@ def call(COMPONENT)    // call is the default functions that is called
 
 
                 stage("Performing TESTS") {
-                    steps {
                         parallel {
                             stage("Unit tests") {
                                steps {
@@ -69,7 +68,6 @@ def call(COMPONENT)    // call is the default functions that is called
                                  sh "echo Functional testing......"
                                }
                             }
-                        }
                     }
                 }
 
