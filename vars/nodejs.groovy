@@ -91,4 +91,4 @@ def call(COMPONENT)    // call is the default functions that is called
     }
 }
 
-//commit >> lintcheck >> quality check >>
+//commit >> lintcheck >> quality check >> testing  >> nexus 
