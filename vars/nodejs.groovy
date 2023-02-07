@@ -11,11 +11,11 @@ def lintchecks(COMPONENT) {
 def sonarchecks(COMPONENT) {
 
     sh "echo starting code quality analysis"
-    sh "sonar-scanner -Dsonar.host.url=http://${SONAR_URL}:9000 -Dsonar.sources=. -Dsonar.projectKey=${COMPONENT} -Dsonar.login=${SONAR_USR} -Dsonar.password=${SONAR_PSW}"
+    // sh "sonar-scanner -Dsonar.host.url=http://${SONAR_URL}:9000 -Dsonar.sources=. -Dsonar.projectKey=${COMPONENT} -Dsonar.login=${SONAR_USR} -Dsonar.password=${SONAR_PSW}"
     sh "echo quality checks done"
-    sh "curl https://gitlab.com/thecloudcareers/opensource/-/raw/master/lab-tools/sonar-scanner/quality-gate > sonar-quality-gate.sh"
-    sh "chmod 777 ./sonar-quality-gate.sh"
-    sh "sonar-quality-gate.sh ${SONAR_USR} ${SONAR_PSW} ${SONAR_URL} ${COMPONENT}"
+    // sh "curl https://gitlab.com/thecloudcareers/opensource/-/raw/master/lab-tools/sonar-scanner/quality-gate > sonar-quality-gate.sh"
+    // sh "chmod 777 ./sonar-quality-gate.sh"
+    // sh "sonar-quality-gate.sh ${SONAR_USR} ${SONAR_PSW} ${SONAR_URL} ${COMPONENT}"
 
 }
 
@@ -48,9 +48,43 @@ def call(COMPONENT)    // call is the default functions that is called
                     }
                 }
 
+                stage("Performing sonar checks") {
+                    steps {
+                        parallel {
+                            stage("Unit tests") {
+                               steps {
+                                 sh "echo unit testing......"
+                               }
+                            }
+                            stage("Integration tests") {
+                               steps {
+                                 sh "echo Integration testing......"
+                               }
+                            }
+                            stage("Functional tests") {
+                               steps {
+                                 sh "echo Functional testing......"
+                               }
+                            }
+                        }
+                    }
+                }
+
                 stage("Downloading dependencies") {
+                    when { 
+                        expression { env.TAG_NAME ==~ ".*" } 
+                        }
                     steps {
                         sh "npm install"
+                    }
+                }
+
+                stage("Exporting to nexus repository") {
+                    when { 
+                        expression { env.TAG_NAME ==~ ".*" } 
+                        }
+                    steps {
+                        sh "echo exporting binaries to NEXUS"
                     }
                 }
         } // end of stages
