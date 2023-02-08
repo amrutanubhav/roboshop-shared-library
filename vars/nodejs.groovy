@@ -72,6 +72,20 @@ def call(COMPONENT)    // call is the default functions that is called
                     }
                 }
 
+                stage("Validating artifacts") {
+                    when { 
+                        expression { env.TAG_NAME ==~ ".*" } 
+                        }
+                    steps {
+                        sh "Checking if artifacts exists in repo"
+                        script {
+
+                            
+                        }
+                        sh "curl -f -v -u ${NEXUS_USR}:${NEXUS_PSW} --upload-file  ${COMPONENT}-${TAG_NAME}.zip http://${NEXUS_URL}:8081/repository/${COMPONENT}/${COMPONENT}-${TAG_NAME}.zip"
+                    }
+                }
+
                 stage("Downloading dependencies") {
                     when { 
                         expression { env.TAG_NAME ==~ ".*" } 
