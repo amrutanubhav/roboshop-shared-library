@@ -27,6 +27,8 @@ def call(COMPONENT)    // call is the default functions that is called
 
                 SONAR = credentials('SONAR')
                 SONAR_URL = "172.31.6.105"
+                NEXUS = credentials('NEXUS')
+                NEXUS_URL = "172.31.15.122"
         
                }
 
@@ -76,6 +78,9 @@ def call(COMPONENT)    // call is the default functions that is called
                         }
                     steps {
                         sh "npm install"
+                        sh "zip ${COMPONENT}-${TAG_NAME}.zip node_modules server.js"
+                        sh "ls -ltr"
+                        sh "curl -f -v -u ${NEXUS_USR}:${NEXUS_PSW} --upload-file  ${COMPONENT}-${TAG_NAME}.zip http://${NEXUS_URL}:8081/repository/${COMPONENT}/${COMPONENT}-${TAG_NAME}.zip"
                     }
                 }
 

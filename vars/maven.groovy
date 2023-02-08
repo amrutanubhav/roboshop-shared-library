@@ -27,6 +27,8 @@ def call(COMPONENT)    // call is the default functions that is called
 
                 SONAR = credentials('SONAR')
                 SONAR_URL = "172.31.6.105"
+                NEXUS = credentials('NEXUS')
+                NEXUS_URL = "172.31.15.122"
         
                }
             stages {   // start of stages
@@ -72,12 +74,13 @@ def call(COMPONENT)    // call is the default functions that is called
                     }
                 }
 
-                stage("Downloading dependencies") {
+                stage("Creating dependencies and sending to nexus repository") {
                     when { 
                         expression { env.TAG_NAME ==~ ".*" } 
                         }
                     steps {
                         sh "mvn clean package"
+                        sh "curl -f -v -u ${NEXUS_USR}:${NEXUS_PSW} --upload-file pom.xml http://${NEXUS_URL}:8081/repository/${COMPONENT}/${COMPONENT}-${TAG_NAME}.zip"
                     }
                 }
 
