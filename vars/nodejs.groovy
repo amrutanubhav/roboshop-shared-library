@@ -89,7 +89,8 @@ def call(COMPONENT)    // call is the default functions that is called
 
                 stage("Downloading dependencies") {
                     when { 
-                        expression { env.TAG_NAME ==~ ".*" } 
+                        expression { env.TAG_NAME ==~ ".*" }
+                        expression { env.UPLOAD_STATUS == "" }
                         }
                     steps {
                         sh "npm install"
