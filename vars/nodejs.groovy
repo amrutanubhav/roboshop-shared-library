@@ -77,10 +77,12 @@ def call(COMPONENT)    // call is the default functions that is called
                         expression { env.TAG_NAME ==~ ".*" } 
                         }
                     steps {
-                        sh "Checking if artifacts exists in repo"
+                        sh "echo Checking if artifacts exists in repo"
                         script {
-
-                            
+                        
+                        env.UPLOAD_STATUS=sh(returnStdout: true, script: "curl -L -s http://${NEXUS_URL}:8081/service/rest/repository/browse/${COMPONENT}")
+                        print ${UPLOAD_STATUS}
+                        
                         }
                         sh "curl -f -v -u ${NEXUS_USR}:${NEXUS_PSW} --upload-file  ${COMPONENT}-${TAG_NAME}.zip http://${NEXUS_URL}:8081/repository/${COMPONENT}/${COMPONENT}-${TAG_NAME}.zip"
                     }
