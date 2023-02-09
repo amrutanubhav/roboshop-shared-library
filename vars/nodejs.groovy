@@ -80,7 +80,7 @@ def call(COMPONENT)    // call is the default functions that is called
                         sh "echo Checking if artifacts exists in repo"
                         script {
                         
-                        env.UPLOAD_STATUS=sh(returnStdout: true, script: "curl -L -s http://${NEXUS_URL}:8081/service/rest/repository/browse/${COMPONENT} | grep ${COMPONENT}-${TAG_NAME}.zip " )
+                        env.UPLOAD_STATUS=sh(returnStdout: true, script: "curl -L -s http://${NEXUS_URL}:8081/service/rest/repository/browse/${COMPONENT} | grep ${COMPONENT}-${TAG_NAME}.zip || true" )
                         print UPLOAD_STATUS
 
                         }
