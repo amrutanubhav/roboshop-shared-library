@@ -96,7 +96,7 @@ def call(COMPONENT)    // call is the default functions that is called
                         }
                     steps {
                         sh "mvn clean package"
-                        sh "mv /target/${COMPONENT}-1.0.jar ${COMPONENT}.jar"
+                        sh "mv ./target/${COMPONENT}-1.0.jar ${COMPONENT}.jar"
                         sh "zip ${COMPONENT}-${TAG_NAMe}.zip ${COMPONENT}.jar "
                         sh "ls -ltr"
                         
