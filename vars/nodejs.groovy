@@ -81,7 +81,7 @@ def call(COMPONENT)    // call is the default functions that is called
                         script {
                         
                         env.UPLOAD_STATUS=sh(returnStdout: true, script: "curl -L -s http://${NEXUS_URL}:8081/service/rest/repository/browse/${COMPONENT}")
-                        print ${UPLOAD_STATUS}
+                        print UPLOAD_STATUS
 
                         }
                     }
