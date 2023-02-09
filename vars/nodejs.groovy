@@ -102,7 +102,8 @@ def call(COMPONENT)    // call is the default functions that is called
 
                 stage("Exporting to nexus repository") {
                     when { 
-                        expression { env.TAG_NAME ==~ ".*" } 
+                        expression { env.TAG_NAME ==~ ".*" }
+                        expression { env.UPLOAD_STATUS == "" }
                         }
                     steps {
                         sh "echo exporting binaries to NEXUS"
