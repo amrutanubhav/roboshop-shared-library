@@ -82,9 +82,8 @@ def call(COMPONENT)    // call is the default functions that is called
                         
                         env.UPLOAD_STATUS=sh(returnStdout: true, script: "curl -L -s http://${NEXUS_URL}:8081/service/rest/repository/browse/${COMPONENT}")
                         print ${UPLOAD_STATUS}
-                        
+
                         }
-                        sh "curl -f -v -u ${NEXUS_USR}:${NEXUS_PSW} --upload-file  ${COMPONENT}-${TAG_NAME}.zip http://${NEXUS_URL}:8081/repository/${COMPONENT}/${COMPONENT}-${TAG_NAME}.zip"
                     }
                 }
 
