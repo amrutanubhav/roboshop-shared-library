@@ -11,7 +11,7 @@ def sonarchecks(COMPONENT) {
 }
 
 def lintchecks() {
-stage('Lint Checks')
+stage('Lint Checks') {
         if(env.APP == "maven") {
             sh "echo installing MAVEN"
             // sh "sudo yum install maven -y"
@@ -48,6 +48,7 @@ stage('Lint Checks')
             sh "echo generic lint checks done"
 
         }
+    }
 }
 
 def testCases() {
@@ -55,8 +56,8 @@ def testCases() {
             "UNIT": {
                 stage("UNIT tests"){
                     sh "echo UNIT testing......"
+                }
             }
-        }
             "INTEGRATION": {
                     stage("INTEGRATION tests"){
                         sh "echo INTEGRATION testing......"

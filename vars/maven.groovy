@@ -17,7 +17,7 @@ def call() {
             sh "mvn clean compile"
             env.ARGS="-Dsonar.java.binaries=target/"
             common.sonarchecks()
-            common.testcases()
+            common.testCases()
             common.artifacts()
 
     }
