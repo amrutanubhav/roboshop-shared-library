@@ -11,7 +11,7 @@ def lintchecks(COMPONENT) {
 def call() {
     node {
             env.APP == "python"
-            lintchecks()
+            common.lintchecks()
             env.ARGS="-Dsonar.sources=."
             common.sonarchecks()
             common.testCases()

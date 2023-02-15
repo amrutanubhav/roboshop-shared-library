@@ -1,19 +1,19 @@
-def lintchecks(COMPONENT) {
-    stage('Lint Checks') {
-        sh "echo installing MAVEN"
-        // sh "sudo yum install maven -y"
-        // sh "mvn checkstyle:check"
-        sh "echo lint checks done"
+// def lintchecks(COMPONENT) {
+//     stage('Lint Checks') {
+//         sh "echo installing MAVEN"
+//         // sh "sudo yum install maven -y"
+//         // sh "mvn checkstyle:check"
+//         sh "echo lint checks done"
 
-    }
+//     }
 
-}
+// }
 
 
 def call() {
     node {
             env.APP == "maven"
-            lintchecks()
+            common.lintchecks()
             sh "mvn clean compile"
             env.ARGS="-Dsonar.java.binaries=target/"
             common.sonarchecks()
