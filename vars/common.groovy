@@ -84,7 +84,7 @@ def artifacts() {
 
             if (env.UPLOAD_STATUS == "") {
 
-                    stage("Exporting to nexus repository") {
+                    stage("Creating Artifacts") {
                                 if(env.APP == "maven") {
                                         sh "mvn clean package"
                                         sh "mv ./target/${COMPONENT}-1.0.jar ${COMPONENT}.jar"
