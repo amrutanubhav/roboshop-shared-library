@@ -8,6 +8,18 @@ def lintchecks(COMPONENT) {
 
 }
 
+def call() {
+    node {
+            env.APP == "python"
+            lintchecks()
+            env.ARGS="-Dsonar.sources=."
+            common.sonarchecks()
+            common.testcases()
+
+    }
+
+}
+
 // def sonarchecks(COMPONENT) {
 
 //     sh "echo starting code quality analysis"
@@ -19,99 +31,101 @@ def lintchecks(COMPONENT) {
 
 // }
 
-def call(COMPONENT)    // call is the default functions that is called
-{
-        pipeline {
-            agent any
-            environment {
+/*DECLARATIVE PIPELINE */
 
-                SONAR = credentials('SONAR')
-                SONAR_URL = "172.31.6.105"
-                NEXUS = credentials('NEXUS')
-                NEXUS_URL = "172.31.15.122"
+// def call(COMPONENT)    // call is the default functions that is called
+// {
+//         pipeline {
+//             agent any
+//             environment {
+
+//                 SONAR = credentials('SONAR')
+//                 SONAR_URL = "172.31.6.105"
+//                 NEXUS = credentials('NEXUS')
+//                 NEXUS_URL = "172.31.15.122"
         
-               }
+//                }
 
-            stages {   // start of stage
+//             stages {   // start of stage
 
-                stage("Performing Lint checks") {
-                    steps {
-                        script {
+//                 stage("Performing Lint checks") {
+//                     steps {
+//                         script {
 
-                            lintchecks(COMPONENT)    // if the function is in same file, no need to call with filename as prefix
-                        }
-                    }
-                }
+//                             lintchecks(COMPONENT)    // if the function is in same file, no need to call with filename as prefix
+//                         }
+//                     }
+//                 }
 
-                stage("Performing sonar checks") {
-                    steps {
-                        script {
-                            env.ARGS="-Dsonar.sources=."
-                            common.sonarchecks(COMPONENT)    // if the function is in same file, no need to call with filename as prefix
-                        }
-                    }
-                }
+//                 stage("Performing sonar checks") {
+//                     steps {
+//                         script {
+//                             env.ARGS="-Dsonar.sources=."
+//                             common.sonarchecks(COMPONENT)    // if the function is in same file, no need to call with filename as prefix
+//                         }
+//                     }
+//                 }
 
-                stage("Performing TEST checks") {
-                        parallel {
-                            stage("Unit tests") {
-                               steps {
-                                 sh "echo unit testing......"
-                               }
-                            }
-                            stage("Integration tests") {
-                               steps {
-                                 sh "echo Integration testing......"
-                               }
-                            }
-                            stage("Functional tests") {
-                               steps {
-                                 sh "echo Functional testing......"
-                               }
-                            }
-                    }
-                }
+//                 stage("Performing TEST checks") {
+//                         parallel {
+//                             stage("Unit tests") {
+//                                steps {
+//                                  sh "echo unit testing......"
+//                                }
+//                             }
+//                             stage("Integration tests") {
+//                                steps {
+//                                  sh "echo Integration testing......"
+//                                }
+//                             }
+//                             stage("Functional tests") {
+//                                steps {
+//                                  sh "echo Functional testing......"
+//                                }
+//                             }
+//                     }
+//                 }
 
-                stage("Validating artifacts") {
-                    when { 
-                        expression { env.TAG_NAME ==~ ".*" } 
-                        }
-                    steps {
-                        sh "echo Checking if artifacts exists in repo"
-                        script {
+//                 stage("Validating artifacts") {
+//                     when { 
+//                         expression { env.TAG_NAME ==~ ".*" } 
+//                         }
+//                     steps {
+//                         sh "echo Checking if artifacts exists in repo"
+//                         script {
                         
-                        env.UPLOAD_STATUS=sh(returnStdout: true, script: "curl -L -s http://${NEXUS_URL}:8081/service/rest/repository/browse/${COMPONENT} | grep ${COMPONENT}-${TAG_NAME}.zip || true" )
-                        print UPLOAD_STATUS
+//                         env.UPLOAD_STATUS=sh(returnStdout: true, script: "curl -L -s http://${NEXUS_URL}:8081/service/rest/repository/browse/${COMPONENT} | grep ${COMPONENT}-${TAG_NAME}.zip || true" )
+//                         print UPLOAD_STATUS
 
-                        }
-                    }
-                }
+//                         }
+//                     }
+//                 }
 
-                stage("Downloading dependencies") {
-                    when { 
-                        expression { env.TAG_NAME ==~ ".*" }
-                        expression { env.UPLOAD_STATUS == "" }
-                        }
-                    steps {
-                        // sh "npm install"
-                        sh "zip -r ${COMPONENT}-${TAG_NAME}.zip *.ini *.py requirements.txt"
-                        sh "ls -ltr"
+//                 stage("Downloading dependencies") {
+//                     when { 
+//                         expression { env.TAG_NAME ==~ ".*" }
+//                         expression { env.UPLOAD_STATUS == "" }
+//                         }
+//                     steps {
+//                         // sh "npm install"
+//                         sh "zip -r ${COMPONENT}-${TAG_NAME}.zip *.ini *.py requirements.txt"
+//                         sh "ls -ltr"
                         
-                    }
-                }
+//                     }
+//                 }
 
-                stage("Exporting to nexus repository") {
-                    when { 
-                        expression { env.TAG_NAME ==~ ".*" }
-                        expression { env.UPLOAD_STATUS == "" }
-                        }
-                    steps {
-                        sh "echo exporting binaries to NEXUS"
-                        sh "curl -f -v -u ${NEXUS_USR}:${NEXUS_PSW} --upload-file ${COMPONENT}-${TAG_NAME}.zip http://${NEXUS_URL}:8081/repository/${COMPONENT}/${COMPONENT}-${TAG_NAME}.zip"
-                    }
-                }
-        } // end of stages
-    }
-}
+//                 stage("Exporting to nexus repository") {
+//                     when { 
+//                         expression { env.TAG_NAME ==~ ".*" }
+//                         expression { env.UPLOAD_STATUS == "" }
+//                         }
+//                     steps {
+//                         sh "echo exporting binaries to NEXUS"
+//                         sh "curl -f -v -u ${NEXUS_USR}:${NEXUS_PSW} --upload-file ${COMPONENT}-${TAG_NAME}.zip http://${NEXUS_URL}:8081/repository/${COMPONENT}/${COMPONENT}-${TAG_NAME}.zip"
+//                     }
+//                 }
+//         } // end of stages
+//     }
+// }
 
 //commit >> lintcheck >> quality check >> testing  >> nexus 
