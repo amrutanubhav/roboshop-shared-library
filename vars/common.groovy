@@ -78,7 +78,7 @@ def artifacts() {
     stage("Validating artifacts") {
 
       sh "echo Checking if artifacts exists in repo"
-      env.UPLOAD_STATUS=sh(returnStdout: true, script: "curl -L -s http://${NEXUS_URL}:8081/service/rest/repository/browse/${COMPONENT} | grep ${COMPONENT}-${TAG_NAME}.zip || true" )
+      env.UPLOAD_STATUS=sh(returnStdout: true, script: "curl -L -s http://172.31.15.122:8081/service/rest/repository/browse/${COMPONENT} | grep ${COMPONENT}-${TAG_NAME}.zip || true" )
 
      }
 
