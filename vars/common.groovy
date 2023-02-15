@@ -110,6 +110,18 @@ def artifacts() {
                                 else {
                                         sh "echo artifact is prepared "
                                 }
-            }
+                        }
+                    
+    stage("Uploading Artifacts") {
+
+        withCredentials([usernamePassword(credentialsId: 'NEXUS', passwordVariable: 'NEXUS_PSW', usernameVariable: 'NEXUS_USR')]) {
+
+            sh "echo exporting binaries to NEXUS"
+            sh "curl -f -v -u ${NEXUS_USR}:${NEXUS_PSW} --upload-file  ${COMPONENT}-${TAG_NAME}.zip http://${NEXUS_URL}:8081/repository/${COMPONENT}/${COMPONENT}-${TAG_NAME}.zip"
+
+         }
+                    }
+
+
     }
 }
