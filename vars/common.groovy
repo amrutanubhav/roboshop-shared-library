@@ -57,17 +57,17 @@ def testCases() {
                 stage("UNIT tests"){
                     sh "echo UNIT testing......"
                 }
-            }
+            };
             "INTEGRATION": {
                     stage("INTEGRATION tests"){
                         sh "echo INTEGRATION testing......"
                 }
-            }
+            };
             "FUNCTIONAL": {
                     stage("FUNCTIONAL tests"){
                         sh "echo INTEGRATION testing......"
                 }
-            }
+            };
 
     )
 
