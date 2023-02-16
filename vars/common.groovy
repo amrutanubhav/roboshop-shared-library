@@ -74,7 +74,7 @@ def testCases() {
 }
 
 def artifacts() {
-
+  if (env.TAG_NAME != null) {
     stage("Validating artifacts") {
 
       sh "echo Checking if artifacts exists in repo"
@@ -123,5 +123,6 @@ def artifacts() {
                     }
 
 
-    }
+            }
+        }
 }
