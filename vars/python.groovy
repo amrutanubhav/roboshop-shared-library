@@ -10,6 +10,7 @@ def lintchecks(COMPONENT) {
 
 def call() {
     node {
+            git branch: 'main', url: "https://github.com/amrutanubhav/${COMPONENT}.git"
             env.APP == "python"
             common.lintchecks()
             env.ARGS="-Dsonar.sources=."

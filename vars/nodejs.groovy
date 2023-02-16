@@ -10,6 +10,7 @@
 
 def call() {
     node {
+            git branch: 'main', url: "https://github.com/amrutanubhav/${COMPONENT}.git"
             env.APP = "nodejs"
             common.lintchecks()
             env.ARGS="-Dsonar.sources=."
