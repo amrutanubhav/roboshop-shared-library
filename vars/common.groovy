@@ -104,9 +104,12 @@ def artifacts() {
                                 }
 
                                 else if(env.APP == "angularjs") {
+                                   
                                         sh "cd static"
-                                        sh "zip -r ../${COMPONENT}-${TAG_NAME}.zip *"
+                                        sh "zip -r ./${COMPONENT}-${TAG_NAME}.zip *"
                                         sh "ls -ltr"
+
+                                 
                                 }
                                 else {
                                         sh "echo artifact is prepared "
