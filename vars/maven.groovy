@@ -12,6 +12,8 @@
 
 def call() {
     node {
+
+            git branch: 'main', url: "https://github.com/amrutanubhav/${COMPONENT}.git" 
             env.APP == "maven"
             common.lintchecks()
             sh "mvn clean compile"
