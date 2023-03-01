@@ -1,4 +1,4 @@
-def sonarchecks(COMPONENT) {
+def sonarchecks() {
     stage('Sonar Checks') {
             sh "echo starting code quality analysis"
             // sh "sonar-scanner -Dsonar.host.url=http://${SONAR_URL}:9000 ${ARGS} -Dsonar.projectKey=${COMPONENT} -Dsonar.login=${SONAR_USR} -Dsonar.password=${SONAR_PSW}"
