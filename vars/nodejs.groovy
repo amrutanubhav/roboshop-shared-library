@@ -14,7 +14,7 @@ def call() {
             git branch: 'main', url: "https://github.com/amrutanubhav/${COMPONENT}.git"
             env.APP = "nodejs"
             common.lintchecks()
-            env.ARGS="-Dsonar.sources=."
+            // env.ARGS="-Dsonar.sources=."
             common.sonarchecks()
             common.testCases()
             common.artifacts()
