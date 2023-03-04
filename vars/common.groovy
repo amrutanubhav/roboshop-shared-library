@@ -116,6 +116,7 @@ def artifacts() {
                     
     stage("Uploading Artifacts") {
 
+            // below syntax is forged from pipeline syntax from jenkins
         withCredentials([usernamePassword(credentialsId: 'NEXUS', passwordVariable: 'NEXUS_PSW', usernameVariable: 'NEXUS_USR')]) {
 
             sh "echo exporting binaries to NEXUS"
