@@ -10,11 +10,11 @@ def sonarchecks() {
         }
 }
 
-def lintchecks() {
+def lintchecks() {  // modified as groovy structure, declarative pipelines can be seen  on other groovy files
 stage('Lint Checks') {
         if(env.APP == "maven") {
             sh "echo installing MAVEN"
-            // sh "sudo yum install maven -y"
+            sh "sudo yum install maven -y"
             // sh "mvn checkstyle:check"
             sh "echo lint checks done"
 
