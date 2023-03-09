@@ -86,28 +86,32 @@ def artifacts() {
 
                     stage("Creating Artifacts") {
                                 if(env.APP == "maven") {
-                                        sh "mvn clean package"
-                                        sh "mv ./target/${COMPONENT}-1.0.jar ${COMPONENT}.jar"
-                                        sh "zip ${COMPONENT}-${TAG_NAMe}.zip ${COMPONENT}.jar "
-                                        sh "ls -ltr"
+                                        sh ''' 
+                                   mvn clean package
+                                   mv target/${COMPONENT}-1.0.jar ${COMPONENT}.jar
+                                   zip -r ${COMPONENT}-${TAG_NAME}.zip ${COMPONENT}.jar
+                            '''
                                 }
 
                                 else if(env.APP == "nodejs") {
-                                        sh "npm install"
-                                        sh "zip ${COMPONENT}-${TAG_NAME}.zip node_modules server.js"
-                                        sh "ls -ltr"
+                                       sh ''' 
+                                   npm install
+                                   zip -r ${COMPONENT}-${TAG_NAME}.zip node_modules server.js
+                                   
+                            '''
                                 }
 
                                 else if(env.APP == "python") {
-                                        sh "zip -r ${COMPONENT}-${TAG_NAME}.zip *.ini *.py requirements.txt"
-                                        sh "ls -ltr"
+                                        sh ''' 
+                                   zip -r ${COMPONENT}-${TAG_NAME}.zip *.py *.ini requirements.txt
+                            '''
                                 }
 
                                 else if(env.APP == "angularjs") {
                                         sh ''' 
-                                            cd static
-                                            zip -r ../${COMPONENT}-${TAG_NAME}.zip *
-                                        '''
+                                   cd static
+                                   zip -r ../${COMPONENT}-${TAG_NAME}.zip *
+                            '''
                      }
                                 else {
                                         sh "echo artifact is prepared "
