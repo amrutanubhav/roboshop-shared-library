@@ -20,7 +20,7 @@ def call() {
 
         stage('Terraform Init') {
                 sh '''
-                        cd ${env.TF_DIRECTORY}
+                        cd ${TF_DIRECTORY}
                         terrafile -f env-${ENV}/Terrafile
                         terraform init -backend-config=env-${ENV}/${ENV}-backend.tfvars
                 '''
