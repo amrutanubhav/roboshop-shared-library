@@ -2,15 +2,15 @@ def call() {
 
     properties([
         parameters([
-            choice(name: 'ENV', choices: JustTest().join('\n'), description: 'Chose an environment'),
-            choice(name: 'ACTION', choices: JustTest().join('\n'), description: 'Chose action to be apply or destroy')
+            choice(choices: 'dev\nprod', description: "Chose the Env", name: "ENV"),
+            choice(choices: 'apply\ndestroy', description: "Choose apply or destroy", name: "ACTION")
         ])
     ])
 
     node {
             ansiColor('xterm'){
             sh "rm -rf *"   // removes all existing files in folders
-            git branch: 'main', url: "https://github.com/amrutanubhav/${COMPONENT}.git" // pulls the component from Git
+            git branch: 'main', url: "https://github.com/amrutanubhav/${REPONAME}.git" // pulls the component from Git
 
         stage('Terraform Init') {
           
