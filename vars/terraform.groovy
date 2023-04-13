@@ -1,5 +1,11 @@
 def call() {
 
+    if (!env.TF_DIRECTORY) {
+
+        env.TF_DIRECTORY = "./"
+
+    }
+
     properties([
         parameters([
             choice(choices: 'dev\nprod', description: "Chose the Env", name: "ENV"),
@@ -13,9 +19,11 @@ def call() {
             git branch: 'main', url: "https://github.com/amrutanubhav/${REPONAME}.git" // pulls the component from Git
 
         stage('Terraform Init') {
-          
-                sh "terrafile -f env-${ENV}/Terrafile"
-                sh "terraform init -backend-config=env-${ENV}/${ENV}-backend.tfvars"
+                sh '''
+                        cd ${env.TF_DIRECTORY}
+                        terrafile -f env-${ENV}/Terrafile
+                        terraform init -backend-config=env-${ENV}/${ENV}-backend.tfvars
+                '''
 
         }
         stage('Terraform Plan') {
