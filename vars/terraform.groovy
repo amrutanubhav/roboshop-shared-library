@@ -9,7 +9,7 @@ def call() {
     properties([
         parameters([
             choice(choices: 'dev\nprod', description: "Chose the Env", name: "ENV"),
-            choice(choices: 'apply\ndestroy', description: "Choose apply or destroy", name: "ACTION")
+            choice(choices: 'apply\ndestroy', description: "Choose apply or destroy", name: "ACTION"),
             string(choices: 'APP_VERSION', description: "Choose app version,IGNORE FOR INFRA", name: "APP_VERSION")
         ])
     ])
