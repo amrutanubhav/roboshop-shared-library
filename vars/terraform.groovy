@@ -10,7 +10,7 @@ def call() {
         parameters([
             choice(choices: 'dev\nprod', description: "Chose the Env", name: "ENV"),
             choice(choices: 'apply\ndestroy', description: "Choose apply or destroy", name: "ACTION"),
-            string(choices: 'APP_VERSION', description: "Choose app version,IGNORE FOR INFRA", name: "APP_VERSION")
+            // string(choices: 'APP_VERSION', description: "Choose app version,IGNORE FOR INFRA", name: "APP_VERSION")
         ])
     ])
 
@@ -31,7 +31,7 @@ def call() {
 
                 sh '''
                         cd ${TF_DIRECTORY}
-                        terraform plan -var-file=env-${ENV}/${ENV}.tfvars -var APP_VERSION=${APP_VERSION}
+                        terraform plan -var-file=env-${ENV}/${ENV}.tfvars
                     '''
 
         }
@@ -39,7 +39,7 @@ def call() {
 
                 sh '''
                         cd ${TF_DIRECTORY}
-                        terraform ${ACTION} -var-file=env-${ENV}/${ENV}.tfvars -var APP_VERSION=${APP_VERSION} -auto-approve
+                        terraform ${ACTION} -var-file=env-${ENV}/${ENV}.tfvars -auto-approve
                     '''
 
         }
