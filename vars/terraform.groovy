@@ -31,7 +31,7 @@ def call() {
 
                 sh '''
                         cd ${TF_DIRECTORY}
-                        terraform plan -var-file=env-${ENV}/${ENV}.tfvars
+                        terraform plan -var-file=env-${ENV}/${ENV}.tfvars APP_VERSION=${APP_VERSION}
                     '''
 
         }
@@ -39,7 +39,7 @@ def call() {
 
                 sh '''
                         cd ${TF_DIRECTORY}
-                        terraform ${ACTION} -var-file=env-${ENV}/${ENV}.tfvars -auto-approve
+                        terraform ${ACTION} -var-file=env-${ENV}/${ENV}.tfvars APP_VERSION=${APP_VERSION} -auto-approve
                     '''
 
         }
