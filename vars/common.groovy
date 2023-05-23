@@ -14,7 +14,7 @@ def lintchecks() {  // modified as groovy structure, declarative pipelines can b
 stage('Lint Checks') {
         if(env.APP == "maven") {
             sh "echo installing MAVEN"
-            sh "sudo yum install maven -y"
+            sh "yum install maven -y"
             // sh "mvn checkstyle:check"
             sh "echo lint checks done"
 
