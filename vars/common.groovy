@@ -78,7 +78,7 @@ def artifacts() {
     stage("Validating artifacts") {
 
       sh "echo Checking if artifacts exists in repo"
-      env.UPLOAD_STATUS=sh(returnStdout: true, script: "curl -L -s http://172.31.15.122:8081/service/rest/repository/browse/${COMPONENT} | grep ${COMPONENT}-${TAG_NAME}.zip || true" )
+      env.UPLOAD_STATUS=sh(returnStdout: true, script: "curl -L -s http://172.31.55.113:8081/service/rest/repository/browse/${COMPONENT} | grep ${COMPONENT}-${TAG_NAME}.zip || true" )
 
      }
 
@@ -124,7 +124,7 @@ def artifacts() {
         withCredentials([usernamePassword(credentialsId: 'NEXUS', passwordVariable: 'NEXUS_PSW', usernameVariable: 'NEXUS_USR')]) {
 
             sh "echo exporting binaries to NEXUS"
-            sh "curl -f -v -u ${NEXUS_USR}:${NEXUS_PSW} --upload-file  ${COMPONENT}-${TAG_NAME}.zip http://172.31.15.122:8081/repository/${COMPONENT}/${COMPONENT}-${TAG_NAME}.zip"
+            sh "curl -f -v -u ${NEXUS_USR}:${NEXUS_PSW} --upload-file  ${COMPONENT}-${TAG_NAME}.zip http://172.31.55.113:8081/repository/${COMPONENT}/${COMPONENT}-${TAG_NAME}.zip"
 
          }
                     }
